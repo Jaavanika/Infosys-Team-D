@@ -1,0 +1,268 @@
+Part-2 Used Dax Function.
+============================================================================================================
+
+
+
+Selected State Name = 
+CALCULATE(
+    SELECTEDVALUE(states[State], "No State Selected"),
+    FILTER(
+        ConstituencyWiseResults,
+        ConstituencyWiseResults[Constituency ID] = MAX(ConstituencyWiseDetails[Constituency ID])
+    )
+)
+
+
+===========================================================================================
+
+
+Winning Candidate = 
+VAR MaxVotes = MAX('ConstituencyWiseDetails'[Total Votes])
+RETURN
+    CALCULATE(
+        MAX('ConstituencyWiseDetails'[Candidate]),
+        'ConstituencyWiseDetails'[Total Votes] = MaxVotes
+    )
+
+
+========================================================================================================================
+
+
+Winning Party Name = 
+VAR MaxVotes = MAX('ConstituencyWiseDetails'[Total Votes])
+RETURN
+    CALCULATE(
+        MAX('ConstituencyWiseDetails'[Party]),
+        'ConstituencyWiseDetails'[Total Votes] = MaxVotes
+    )
+
+
+
+
+
+==================================================================================================================================
+
+
+Winning Candidate Total Votes = 
+"Total Votes:" & " " & MAX('ConstituencyWiseDetails'[Total Votes])
+
+
+
+=================================================================================================================
+
+Winning Candidate Vote Share % = 
+"Vote Share:" & " " & MAX('ConstituencyWiseDetails'[% of Votes]) & " %"
+
+
+
+ 
+============================================================================================================================================================
+
+
+
+Runner Up Winning Candidate = 
+VAR MaxVotes = MAX('ConstituencyWiseDetails'[Total Votes]) 
+VAR SecondMaxVotes = 
+    MAXX(
+        FILTER(
+            'ConstituencyWiseDetails',
+            'ConstituencyWiseDetails'[Total Votes] < MaxVotes
+        ),
+        'ConstituencyWiseDetails'[Total Votes]
+    )
+RETURN
+    CALCULATE(
+        MAX('ConstituencyWiseDetails'[Candidate]),
+        'ConstituencyWiseDetails'[Total Votes] = SecondMaxVotes
+    )
+
+
+
+============================================================================================================================================================
+
+
+Runner UP Winning Party = 
+VAR MaxVotes = MAX('ConstituencyWiseDetails'[Total Votes]) 
+VAR SecondMaxVotes = 
+    MAXX(
+        FILTER(
+            'ConstituencyWiseDetails',
+            'ConstituencyWiseDetails'[Total Votes] < MaxVotes
+        ),
+        'ConstituencyWiseDetails'[Total Votes]
+    )
+RETURN
+    CALCULATE(
+        MAX('ConstituencyWiseDetails'[Party]),
+        'ConstituencyWiseDetails'[Total Votes] = SecondMaxVotes
+    )
+
+
+
+===========================================================================================================================================================
+
+
+Runner Up Winning Candidate Total Votes = 
+"Total Votes: " & 
+VAR MaxVotes = MAX('ConstituencyWiseDetails'[Total Votes]) 
+VAR SecondMaxVotes = 
+    MAXX(
+        FILTER(
+            'ConstituencyWiseDetails',
+            'ConstituencyWiseDetails'[Total Votes] < MaxVotes
+        ),
+        'ConstituencyWiseDetails'[Total Votes]
+    )
+RETURN 
+    IF(
+        ISBLANK(SecondMaxVotes), 
+        "No second max", 
+        SecondMaxVotes
+    )
+
+
+
+============================================================================================================================================================
+
+
+Runner Up Winning Candidate Vote Share % = 
+"Vote Share: " & 
+VAR MaxVoteShare = MAX('ConstituencyWiseDetails'[% of Votes]) 
+VAR SecondMaxVoteShare = 
+    MAXX(
+        FILTER(
+            'ConstituencyWiseDetails',
+            'ConstituencyWiseDetails'[% of Votes] < MaxVoteShare
+        ),
+        'ConstituencyWiseDetails'[% of Votes]
+    )
+RETURN 
+    IF(
+        ISBLANK(SecondMaxVoteShare), 
+        "No second max", 
+        SecondMaxVoteShare & " %"
+    )
+
+
+
+============================================================================================================================================================
+
+
+2nd Runner Up Winning Candidate = 
+VAR MaxVotes = MAX('ConstituencyWiseDetails'[Total Votes]) 
+VAR SecondMaxVotes = 
+    MAXX(
+        FILTER(
+            'ConstituencyWiseDetails',
+            'ConstituencyWiseDetails'[Total Votes] < MaxVotes
+        ),
+        'ConstituencyWiseDetails'[Total Votes]
+    )
+VAR ThirdMaxVotes = 
+    MAXX(
+        FILTER(
+            'ConstituencyWiseDetails',
+            'ConstituencyWiseDetails'[Total Votes] < SecondMaxVotes
+        ),
+        'ConstituencyWiseDetails'[Total Votes]
+    )
+RETURN
+    CALCULATE(
+        MAX('ConstituencyWiseDetails'[Candidate]),
+        'ConstituencyWiseDetails'[Total Votes] = ThirdMaxVotes
+    )
+
+
+
+============================================================================================================================================================
+
+
+2nd Runner Up Winning Party = 
+VAR MaxVotes = MAX('ConstituencyWiseDetails'[Total Votes]) 
+VAR SecondMaxVotes = 
+    MAXX(
+        FILTER(
+            'ConstituencyWiseDetails',
+            'ConstituencyWiseDetails'[Total Votes] < MaxVotes
+        ),
+        'ConstituencyWiseDetails'[Total Votes]
+    )
+VAR ThirdMaxVotes = 
+    MAXX(
+        FILTER(
+            'ConstituencyWiseDetails',
+            'ConstituencyWiseDetails'[Total Votes] < SecondMaxVotes
+        ),
+        'ConstituencyWiseDetails'[Total Votes]
+    )
+RETURN
+    CALCULATE(
+        MAX('ConstituencyWiseDetails'[Party]),
+        'ConstituencyWiseDetails'[Total Votes] = ThirdMaxVotes
+    )
+
+
+
+
+============================================================================================================================================================
+
+2nd Runner Up Winning Candidate Total Votes = 
+"Total Votes: " & 
+VAR MaxVotes = MAX('ConstituencyWiseDetails'[Total Votes]) 
+VAR SecondMaxVotes = 
+    MAXX(
+        FILTER(
+            'ConstituencyWiseDetails',
+            'ConstituencyWiseDetails'[Total Votes] < MaxVotes
+        ),
+        'ConstituencyWiseDetails'[Total Votes]
+    )
+VAR ThirdMaxVotes = 
+    MAXX(
+        FILTER(
+            'ConstituencyWiseDetails',
+            'ConstituencyWiseDetails'[Total Votes] < SecondMaxVotes
+        ),
+        'ConstituencyWiseDetails'[Total Votes]
+    )
+RETURN 
+    IF(
+        ISBLANK(ThirdMaxVotes), 
+        "No third max", 
+        ThirdMaxVotes
+    )
+
+
+
+
+============================================================================================================================================================
+
+
+
+2nd Runner Up Winning Candidate Vote Share % = 
+"Vote Share: " & 
+VAR MaxVoteShare = MAX('ConstituencyWiseDetails'[% of Votes]) 
+VAR SecondMaxVoteShare = 
+    MAXX(
+        FILTER(
+            'ConstituencyWiseDetails',
+            'ConstituencyWiseDetails'[% of Votes] < MaxVoteShare
+        ),
+        'ConstituencyWiseDetails'[% of Votes]
+    )
+VAR ThirdMaxVoteShare = 
+    MAXX(
+        FILTER(
+            'ConstituencyWiseDetails',
+            'ConstituencyWiseDetails'[% of Votes] < SecondMaxVoteShare
+        ),
+        'ConstituencyWiseDetails'[% of Votes]
+    )
+RETURN 
+    IF(
+        ISBLANK(ThirdMaxVoteShare), 
+        "No third max", 
+        ThirdMaxVoteShare & " %"
+    )
+
+
